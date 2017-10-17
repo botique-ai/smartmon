@@ -1,0 +1,26 @@
+{
+  "name": "@botique/smartmon",
+  "version": "0.1.0",
+  "description": "Automatically restart your NodeJS process when one of the dependencies changes",
+  "main": "./lib/index.js",
+  "bin": {
+    "smartmon": "./lib/bin/smartmon.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "dependency-tree": "^5.11.1",
+    "treeify": "^1.0.1",
+    "watchpack": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.33",
+    "typescript": "^2.5.3"
+  }
+}
