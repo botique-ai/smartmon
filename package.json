@@ -1,8 +1,13 @@
 {
   "name": "@botique/smartmon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automatically restart your NodeJS process when one of the dependencies changes",
-  "keywords": ["watch", "restart", "dependencies", "process"],
+  "keywords": [
+    "watch",
+    "restart",
+    "dependencies",
+    "process"
+  ],
   "homepage": "https://github.com/botique-ai/smartmon",
   "repository": {
     "type": "git",
