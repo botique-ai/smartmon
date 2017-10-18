@@ -16,6 +16,7 @@
   "dependencies": {
     "chalk": "^2.1.0",
     "dependency-tree": "^5.11.1",
+    "minimist": "^1.2.0",
     "treeify": "^1.0.1",
     "watchpack": "^1.4.0"
   },

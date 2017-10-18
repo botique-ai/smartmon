@@ -3,7 +3,7 @@ import * as Watchpack from "watchpack";
 import {realpathSync} from "fs";
 import {ChildProcess, spawn} from "child_process";
 import {asLines} from "treeify";
-import {bgCyan, yellow} from "chalk";
+import {yellow} from "chalk";
 
 export function log(...args) {
   console.log(yellow.bold(`[smartmon]`), yellow(...args));
@@ -39,7 +39,7 @@ export function watchScriptWithDependencies(wp: any, scriptPath: string) {
 export function runScript(scriptPath: string,
                           nodeArguments: string[]) {
   log(`Spawning new child process with script ${scriptPath} ...`);
-  const childProcess = spawn('node', [scriptPath, ...nodeArguments], {stdio: 'inherit'});
+  const childProcess = spawn('node', nodeArguments, {stdio: 'inherit'});
   childProcess.addListener("exit", exitCode => {
     log(`Child process exited with code ${exitCode}.`);
     log(`Still watching for changes in all dependencies...`);
