@@ -2,6 +2,12 @@
   "name": "@botique/smartmon",
   "version": "0.1.0",
   "description": "Automatically restart your NodeJS process when one of the dependencies changes",
+  "keywords": ["watch", "restart", "dependencies", "process"],
+  "homepage": "https://bitbucket.org/botique_ai/smartmon",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/botique_ai/smartmon.git"
+  },
   "main": "./lib/index.js",
   "bin": {
     "smartmon": "./lib/bin/smartmon.js"
@@ -11,8 +17,8 @@
     "build": "tsc",
     "dev": "tsc -w"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "BOTique.ai <dev@botique.ai>",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^2.1.0",
     "dependency-tree": "^5.11.1",
