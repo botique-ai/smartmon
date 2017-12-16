@@ -1,6 +1,6 @@
 {
   "name": "@botique/smartmon",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Automatically restart your NodeJS process when one of the dependencies changes",
   "keywords": [
     "watch",
