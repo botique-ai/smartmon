@@ -4,45 +4,72 @@ import {realpathSync} from "fs";
 import {ChildProcess, spawn} from "child_process";
 import {asLines} from "treeify";
 import {yellow} from "chalk";
+import * as union from "lodash.union";
+import * as compact from "lodash.compact";
 
 export function log(...args) {
   console.log(yellow.bold(`[smartmon]`), yellow(...args));
 }
 
 export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
+  log("Initializing dependency tree watch and running script... ");
   let childProcess: ChildProcess;
+  let filesToWatch;
 
   const wp = new Watchpack();
   wp.on('aggregated', changedFiles => {
     log(`A change was detected in the following files:`);
     asLines(changedFiles, true, false, line => log(line));
-    log('Updating watched scripts and restarting...');
-    watchScriptWithDependencies(wp, scriptPath);
+
     crash(childProcess);
-    childProcess = runScript(scriptPath, nodeArguments);
+
+    log('Updating watched scripts and restarting...');
+
+    for (const changedFile of changedFiles) {
+      const dependencyList = toList({
+        filename: changedFile,
+        directory: process.cwd()
+      });
+      filesToWatch = union(dependencyList, filesToWatch);
+    }
+
+    childProcess = updateWatchedFilesAndRunScript(wp, filesToWatch, scriptPath, nodeArguments);
   });
 
-  watchScriptWithDependencies(wp, scriptPath);
-  childProcess = runScript(scriptPath, nodeArguments);
-}
-
-export function watchScriptWithDependencies(wp: any, scriptPath: string) {
-  const filesToWatch = toList({
+  filesToWatch = toList({
     filename: scriptPath,
     directory: process.cwd()
   }) || [];
 
-  const filesRealPath = filesToWatch.map(x => realpathSync(x));
-  wp.watch(filesRealPath, [], Date.now());
+  childProcess = updateWatchedFilesAndRunScript(wp, filesToWatch, scriptPath, nodeArguments);
+}
+
+export function updateWatchedFilesAndRunScript(wp: any, filesToWatch: string[], scriptPath: string, nodeArguments: string[]) {
+  watchScriptWithDependencies(wp, filesToWatch);
+  return runScript(scriptPath, nodeArguments);
+}
+
+export function watchScriptWithDependencies(wp: any, filesToWatch: string[]) {
+  const filesRealPath = filesToWatch.map(x => {
+    try {
+      return realpathSync(x);
+    }
+    catch (err) {
+      return null;
+    }
+  });
+  wp.watch(compact(filesRealPath), [], Date.now());
 }
 
 export function runScript(scriptPath: string,
                           nodeArguments: string[]) {
   log(`Spawning new child process with script ${scriptPath} ...`);
   const childProcess = spawn('node', nodeArguments, {stdio: 'inherit'});
-  childProcess.addListener("exit", exitCode => {
-    log(`Child process exited with code ${exitCode}.`);
-    log(`Still watching for changes in all dependencies...`);
+  childProcess.addListener("exit", (exitCode, signal) => {
+    if (!signal) {
+      log(`Child process exited with code ${exitCode}.`);
+      log(`Still watching for changes in all dependencies...`);
+    }
   });
   return childProcess;
 }
