@@ -15,6 +15,7 @@
   },
   "bugs": "https://github.com/botique-ai/smartmon/issues",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "bin": {
     "smartmon": "./lib/bin/smartmon.js"
   },
@@ -23,7 +24,7 @@
     "build": "tsc",
     "dev": "tsc -w"
   },
-  "author": "BOTique.ai <dev@botique.ai>",
+  "author": "botique.ai <dev@botique.ai>",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.1.0",

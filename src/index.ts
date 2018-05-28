@@ -3,12 +3,12 @@ import * as Watchpack from "watchpack";
 import {realpathSync} from "fs";
 import {ChildProcess, spawn} from "child_process";
 import {asLines} from "treeify";
-import {yellow} from "chalk";
+import chalk from "chalk";
 import * as union from "lodash.union";
 import * as compact from "lodash.compact";
 
 export function log(...args) {
-  console.log(yellow.bold(`[smartmon]`), yellow(...args));
+  console.log(chalk.yellow.bold(`[smartmon]`), chalk.yellow(...args));
 }
 
 export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
@@ -25,13 +25,19 @@ export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
 
     log('Updating watched scripts and restarting...');
 
+    let changedFilesDepenedencies = [];
+
     for (const changedFile of changedFiles) {
-      const dependencyList = toList({
-        filename: changedFile,
-        directory: process.cwd()
-      });
-      filesToWatch = union(dependencyList, filesToWatch);
+      if (!changedFilesDepenedencies.includes(changedFile)) {
+        const dependencyList = toList({
+          filename: changedFile,
+          directory: process.cwd()
+        });
+        changedFilesDepenedencies = union(changedFilesDepenedencies, dependencyList);
+      }
     }
+
+    filesToWatch = union(changedFilesDepenedencies, filesToWatch);
 
     childProcess = updateWatchedFilesAndRunScript(wp, filesToWatch, scriptPath, nodeArguments);
   });
@@ -50,6 +56,7 @@ export function updateWatchedFilesAndRunScript(wp: any, filesToWatch: string[], 
 }
 
 export function watchScriptWithDependencies(wp: any, filesToWatch: string[]) {
+  log(`Setting up watch on ${filesToWatch.length} files...`);
   const filesRealPath = filesToWatch.map(x => {
     try {
       return realpathSync(x);

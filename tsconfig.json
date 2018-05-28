@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2017",
     "sourceMap": true,
     "outDir": "lib",
-    "rootDir": "src"
+    "rootDir": "src",
+    "declaration": true
   },
   "exclude": [
     "node_modules",
-    "e2e-tests"
+    "e2e-tests",
+    "lib"
   ]
 }
