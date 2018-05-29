@@ -1,14 +1,14 @@
 # Smartmon
 
 `smartmon` is a small cli tool to automatically restart your nodejs application
-when a change occurs in any of the files required by your main script (including node_modules!).
+when a change occurs in any of the files required by your main script (including symlinked node_modules!).
 
 ## Features
 
 * No configuration - drop in replacement for the node cli.
 * Watch only dependencies - Only changes in your requires script will cause a restart to your node application.
 * Symlinks supported - for use cases like symlinked node modules.
-* Monorepos supported - specifically created for monorepos and lerna support. 
+* Monorepos supported - specifically created for monorepos support. 
 
 ### Motivation
 
@@ -16,7 +16,7 @@ Current tools used for automatically restarting your node process, are based on 
 by the developer. In certain scenarios, this means watching files that are not really apart of your application, meaning 
 unnecessary restarts.
 
-Also, in a monorepo managed by lerna, you probably want to restart your node server when there is a change in another
+Also, in a monorepo, you probably want to restart your node server when there is a change in another
 package dependency. Using directory watching to watch the folder in the node_modules would also mean watching files that 
 are not actually related to your running node process. 
 
