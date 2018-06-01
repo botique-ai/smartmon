@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": false,
+    "skipDefaultLibCheck": false,
+    "jsx": "react",
+    "rootDir": "./src",
     "sourceMap": true,
-    "outDir": "lib",
-    "rootDir": "src",
-    "declaration": true
+    "declaration": false,
+    "importHelpers": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "target": "es2017",
+    "noEmit": true,
+    "pretty": true
   },
-  "exclude": [
-    "node_modules",
-    "e2e-tests",
-    "lib"
-  ]
+  "include": ["src/**/*", "typings/**/*"]
 }

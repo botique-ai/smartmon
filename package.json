@@ -14,15 +14,18 @@
     "url": "https://github.com/botique-ai/smartmon.git"
   },
   "bugs": "https://github.com/botique-ai/smartmon/issues",
-  "main": "./lib/index.js",
+  "main": "./lib/es2017/index.js",
   "types": "./lib/index.d.ts",
   "bin": {
     "smartmon": "./lib/bin/smartmon.js"
   },
   "scripts": {
     "test": "jest",
-    "build": "tsc",
-    "dev": "tsc -w"
+    "build": "botique build",
+    "dev": "botique dev",
+    "typecheck": "botique typecheck",
+    "start": "botique start",
+    "assert": "botique assert"
   },
   "author": "botique.ai <dev@botique.ai>",
   "license": "MIT",
@@ -33,10 +36,13 @@
     "lodash.union": "^4.6.0",
     "minimist": "^1.2.0",
     "treeify": "^1.0.1",
+    "tslib": "^1.9.2",
     "watchpack": "^1.4.0"
   },
   "devDependencies": {
+    "@botique/cli": "^0.3.17",
     "@types/node": "^8.0.33",
     "typescript": "^2.5.3"
-  }
+  },
+  "browser": "./lib/es5/index.js"
 }
