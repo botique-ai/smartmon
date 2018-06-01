@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import {toList} from "dependency-tree";
 import {runAndWatchScript} from "../index";
 import * as minimist from "minimist";
 

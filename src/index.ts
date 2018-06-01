@@ -49,6 +49,12 @@ export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
 
   const filesFilterFunction = createFilterFunction();
 
+  filesToWatch = toList({
+    filename: scriptPath,
+    filter: filesFilterFunction,
+    directory: process.cwd()
+  }) || [];
+
   const wp = new Watchpack({aggregateTimeout: WATCH_AGGREGATE_TIMEOUT});
   wp.on('aggregated', changedFiles => {
     if (changedFiles.length > MAX_CHANGED_FILES_TO_LOG) {
@@ -69,7 +75,7 @@ export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
       if (!changedFilesDepenedencies.includes(changedFile)) {
         const dependencyList = toList({
           filename: changedFile,
-          filter: filesFilterFunction,
+          filter: path => changedFiles.includes(path),
           directory: process.cwd()
         });
         changedFilesDepenedencies = union(changedFilesDepenedencies, dependencyList);
@@ -80,12 +86,6 @@ export function runAndWatchScript(scriptPath: string, nodeArguments: string[]) {
 
     childProcess = updateWatchedFilesAndRunScript(wp, filesToWatch, scriptPath, nodeArguments);
   });
-
-  filesToWatch = toList({
-    filename: scriptPath,
-    filter: filesFilterFunction,
-    directory: process.cwd()
-  }) || [];
 
   childProcess = updateWatchedFilesAndRunScript(wp, filesToWatch, scriptPath, nodeArguments);
 }
