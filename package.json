@@ -15,9 +15,9 @@
   },
   "bugs": "https://github.com/botique-ai/smartmon/issues",
   "main": "./lib/es2017/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./lib/es2017index.d.ts",
   "bin": {
-    "smartmon": "./lib/bin/smartmon.js"
+    "smartmon": "./lib/es2017/bin/smartmon.js"
   },
   "scripts": {
     "test": "jest",
