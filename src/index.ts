@@ -7,9 +7,10 @@ import chalk from "chalk";
 import * as union from "lodash.union";
 import * as compact from "lodash.compact";
 import { sep } from "path";
+import { format } from "date-fns";
 
 export function log(...args) {
-  console.log(chalk.yellow.bold(`[smartmon]`), chalk.yellow(...args));
+  console.log(chalk.yellow.bold(`[smartmon ${format(new Date(), "YYYY-MM-DD HH:mm:ss.SSS")}]`), chalk.yellow(...args));
 }
 
 const NODE_MODULES_DIR = "node_modules";
